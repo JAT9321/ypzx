@@ -1,0 +1,36 @@
+server:
+    port: 8501
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://121.37.154.99:3007/db_spzx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=no
+        username: root
+        password: zgt9321@jj.com
+    data:
+        redis:
+            host: 121.37.154.99
+            port: 6379
+            database: 0
+            lettuce:
+                pool:
+                    enabled: true
+                    max-active: 100
+                    max-idle: 20
+                    min-idle: 5
+            password: zgt123
+mybatis:
+    config-location: classpath:/mybatis-config.xml
+    mapper-locations: classpath:/mapper/*/*.xml
+
+# 自定义配置
+spzx:
+    auth:
+        noAuthUrls:
+            - /admin/system/index/login
+            - /admin/system/index/generateValidateCode
+    minio:
+        endpointUrl: http://121.37.154.99:9001
+        accessKey: admin
+        secreKey: zgt9321@qq.com
+        bucketName: spzx-bucket

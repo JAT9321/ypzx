@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.jiao.mapper.SysUserMapper">
+
+    <sql id="columns">
+        id,username userName ,password,name,phone,avatar,description,status,create_time,update_time,is_deleted
+    </sql>
+
+
+    <select id="selectByUserName" resultType="com.jiao.model.entity.system.SysUser">
+        select
+        <include refid="columns"/>
+        from sys_user
+        where username = #{userName} and is_deleted = 0
+    </select>
+
+    <sql id="findPageWhere">
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and username like CONCAT('%',#{keyword},'%')
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted = 0
+        </where>
+    </sql>
+
+    <select id="findByPage" resultType="com.jiao.model.entity.system.SysUser">
+        select
+        <include refid="columns"/>
+        from sys_user
+        <include refid="findPageWhere"/>
+        order by id desc
+    </select>
+
+
+    <select id="finByUserName" resultType="com.jiao.model.entity.system.SysUser">
+        select
+        <include refid="columns"/>
+        from sys_user
+        where username=#{userName}
+    </select>
+
+
+    <insert id="saveSysUser">
+        insert into sys_user
+        values((
+        id,
+        username,
+        password,
+        name,
+        phone,
+        avatar,
+        description,
+        status
+        ) values (
+        #{id},
+        #{userName},
+        #{password},
+        #{name},
+        #{phone},
+        #{avatar},
+        #{description},
+        #{status}
+        )
+    </insert>
+
+
+    <update id="updateSysUser">
+        update sys_user set
+        <if test="userName != null and userName != ''">
+            username = #{userName},
+        </if>
+        <if test="password != null and password != ''">
+            password = #{password},
+        </if>
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description},
+        </if>
+        <if test="status != null and status != ''">
+            status = #{status},
+        </if>
+        <if test="avatar != null and avatar != ''">
+            avatar = #{avatar},
+        </if>
+        update_time = now()
+        where
+        id = #{id}
+    </update>
+
+
+    <delete id="deleteById">
+        update sys_user set
+        update_time = now(),
+        is_deleted = 1
+        where
+        id = #{id}
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,34 @@
+server:
+    port: 8555
+
+spring:
+    application:
+        name: service-pay
+    cloud:
+        nacos:
+            discovery:
+                server-addr: localhost:8848
+    data:
+        redis:
+            host: 121.37.154.99
+            port: 6379
+            database: 0
+            lettuce:
+                pool:
+                    enabled: true
+                    max-active: 100
+                    max-idle: 20
+                    min-idle: 5
+            password: zgt123
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://121.37.154.99:3007/db_spzx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=no
+        username: root
+        password: zgt9321@jj.com
+    config:
+        import: application-alipay.yml
+
+mybatis:
+    config-location: classpath:mybatis-config.xml
+    mapper-locations: classpath:mapper/*/*.xml
